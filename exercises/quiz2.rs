@@ -1,26 +1,19 @@
 // quiz2.rs
-//
-// This is a quiz for the following sections:
-// - Strings
-// - Vecs
-// - Move semantics
-// - Modules
-// - Enums
-//
-// Let's build a little machine in the form of a function. As input, we're going
-// to give a list of strings and commands. These commands determine what action
-// is going to be applied to the string. It can either be:
-// - Uppercase the string
-// - Trim the string
-// - Append "bar" to the string a specified amount of times
-// The exact form of this will be:
-// - The input is going to be a Vector of a 2-length tuple,
-//   the first element is the string, the second one is the command.
-// - The output element is going to be a Vector of strings.
-//
-// No hints this time!
+// 这是一个关于以下部分的小测验
+// - 向量（Vecs）
+// - 移动语义（Move semantics）
+// - 模块（模块）
+// - 枚举（枚举）
+// //
+// 让我们构建一个小型机器，它是一个函数的形式。作为输入，我们将提供一个字符串和命令的列表。这些命令确定对字符串要执行的操作。它可以是：
+// - 将字符串转换为大写
+// - 去除字符串的空白部分
+// - 将字符串附加指定次数的 “bar”
+// 具体形式如下：
+// - 输入将是一个二元组的向量，长度为2，第一个元素是字符串，第二个元素是命令。
+// - 输出元素将是一个字符串的向量。
+// //
 
-// I AM NOT DONE
 
 pub enum Command {
     Uppercase,
@@ -32,11 +25,21 @@ mod my_module {
     use super::Command;
 
     // TODO: Complete the function signature!
-    pub fn transformer(input: ???) -> ??? {
-        // TODO: Complete the output declaration!
-        let mut output: ??? = vec![];
+    pub fn transformer(input: Vec<(String, Command)>) -> Vec<String> {
+        let mut output: Vec<String> = vec![];
         for (string, command) in input.iter() {
-            // TODO: Complete the function body. You can do it!
+            match command {
+                Command::Uppercase => {
+                    output.push(string.to_uppercase());
+                }
+                Command::Trim => {
+                    output.push(string.trim().to_string());
+                }
+                Command::Append(n) => {
+                    let appended_string = string.clone() + &"bar".repeat(*n);
+                    output.push(appended_string);
+                }
+            }
         }
         output
     }
@@ -45,7 +48,7 @@ mod my_module {
 #[cfg(test)]
 mod tests {
     // TODO: What do we need to import to have `transformer` in scope?
-    use ???;
+    use super::my_module::transformer;
     use super::Command;
 
     #[test]
