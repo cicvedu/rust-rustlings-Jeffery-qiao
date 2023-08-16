@@ -36,7 +36,7 @@ mod my_module {
                     output.push(string.trim().to_string());
                 }
                 Command::Append(n) => {
-                    let appended_string = string.clone() + &"bar".repeat(*n);
+                    
                     output.push(appended_string);
                 }
             }
