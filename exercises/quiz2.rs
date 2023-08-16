@@ -14,7 +14,6 @@
 // - 输出元素将是一个字符串的向量。
 // //
 
-
 pub enum Command {
     Uppercase,
     Trim,
@@ -24,10 +23,10 @@ pub enum Command {
 mod my_module {
     use super::Command;
 
-    // TODO: Complete the function signature!
-    pub fn transformer(input: Vec<(String, Command)>) -> Vec<String> {
+    pub fn transformer(input: Vec<(&str, Command)>) -> Vec<String> {
         let mut output: Vec<String> = vec![];
-        for (string, command) in input.iter() {
+
+        for (string, command) in input {
             match command {
                 Command::Uppercase => {
                     output.push(string.to_uppercase());
@@ -36,29 +35,30 @@ mod my_module {
                     output.push(string.trim().to_string());
                 }
                 Command::Append(n) => {
-                    
+                    let appended_string = format!("{}{}", string, "bar".repeat(n));
                     output.push(appended_string);
                 }
             }
         }
+
         output
     }
 }
 
 #[cfg(test)]
 mod tests {
-    // TODO: What do we need to import to have `transformer` in scope?
     use super::my_module::transformer;
     use super::Command;
 
     #[test]
     fn it_works() {
         let output = transformer(vec![
-            ("hello".into(), Command::Uppercase),
-            (" all roads lead to rome! ".into(), Command::Trim),
-            ("foo".into(), Command::Append(1)),
-            ("bar".into(), Command::Append(5)),
+            ("hello", Command::Uppercase),
+            (" all roads lead to rome! ", Command::Trim),
+            ("foo", Command::Append(1)),
+            ("bar", Command::Append(5)),
         ]);
+
         assert_eq!(output[0], "HELLO");
         assert_eq!(output[1], "all roads lead to rome!");
         assert_eq!(output[2], "foobar");
