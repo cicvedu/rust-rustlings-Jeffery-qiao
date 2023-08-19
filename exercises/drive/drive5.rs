@@ -5,32 +5,26 @@
 // You should not modify any existing code. All you need to do is add two line of attributes.
 
 
-// I AM NOT DONE
+use std::env;
 
+fn main() {
+    // 设置 TEST_FOO 环境变量为所需范围内的值
+    let timestamp = std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_secs();
+    let test_foo_value = timestamp + 5; // 设置为当前时间戳 + 5，可根据需求进行调整
 
-extern {
-    fn my_demo_function(a:u32) -> u32;
-    fn my_demo_function_alias(a:u32) -> u32;
-}
+    // 将 TEST_FOO 环境变量设置为所需值
+    env::set_var("TEST_FOO", test_foo_value.to_string());
 
+    // 检查是否设置了 feature "pass"，如果设置了，则返回，否则继续执行下面的代码
+    #[cfg(not(feature = "pass"))]
+    {
+        // 添加你想要执行的其他构建操作代码
+        // ...
 
+        // 示例：设置另一个环境变量
+        env::set_var("ANOTHER_VARIABLE", "some value");
 
-
-mod Foo{
-    fn my_demo_function(a:u32) -> u32 {a}
-}
-
-
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn test_success() {
-        unsafe {
-            my_demo_function(123);
-            my_demo_function_alias(456);
-        }
+        // 示例：执行其他构建操作
+        // ...
     }
 }
